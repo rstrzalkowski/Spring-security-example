@@ -1,28 +1,30 @@
 package pl.lodz.p.it.usermodule.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import pl.lodz.p.it.usermodule.dto.LoginDTO;
-import pl.lodz.p.it.usermodule.dto.RegisterUserDTO;
+import pl.lodz.p.it.usermodule.dto.request.LoginDTO;
+import pl.lodz.p.it.usermodule.dto.request.RegisterUserDTO;
+import pl.lodz.p.it.usermodule.dto.response.JwtDTO;
 import pl.lodz.p.it.usermodule.model.User;
-import pl.lodz.p.it.usermodule.service.AuthService;
+import pl.lodz.p.it.usermodule.service.UserService;
 
 @RestController
+@RequiredArgsConstructor
 public class AuthController {
 
-    @Autowired
-    private AuthService authService;
+    private final UserService userService;
+
 
     @PostMapping("/register")
     public User register(@RequestBody RegisterUserDTO dto) {
-        return authService.register(dto);
+        return userService.register(dto);
     }
 
-    @PostMapping("/auth")
-    public String register(LoginDTO dto) {
-        return authService.login(dto);
+    @PostMapping("/login")
+    public JwtDTO login(@RequestBody LoginDTO dto) {
+        return userService.login(dto);
     }
 
 }

@@ -1,4 +1,4 @@
-package pl.lodz.p.it.usermodule.dto;
+package pl.lodz.p.it.usermodule.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginDTO {
+public class RegisterUserDTO {
     String email;
     String password;
 }

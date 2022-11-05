@@ -20,7 +20,4 @@ public class HelloController {
     public String hiAdmin() {
         return "Hi admin";
     }
-
-
-
 }

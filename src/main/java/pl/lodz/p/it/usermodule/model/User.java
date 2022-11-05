@@ -1,6 +1,6 @@
 package pl.lodz.p.it.usermodule.model;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,6 +15,7 @@ import java.util.Collections;
 @Data
 @Entity
 @Table(name = "users")
+@Access(AccessType.FIELD)
 public class User implements UserDetails {
 
     public static final String ADMIN = "ADMIN";
@@ -24,16 +25,33 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(unique = true)
     private String email;
 
     @Column
+    @JsonIgnore
     private String password;
+
+    @Column
+    private boolean enabled = true;
 
     @Column
     private String role;
 
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+        this.role = "USER";
+    }
+
+    public User(String email, String password, String role) {
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + role));
     }
@@ -44,28 +62,26 @@ public class User implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
-        return true;
-    }
-
-    public User(String email, String password) {
-        this.email = email;
-        this.password = password;
-        this.role = "USER";
+        return enabled;
     }
 }

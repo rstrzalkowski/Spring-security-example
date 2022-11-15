@@ -28,6 +28,9 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String email;
 
+    @Column(unique = true)
+    private String visibleName;
+
     @Column
     @JsonIgnore
     private String password;
@@ -38,14 +41,16 @@ public class User implements UserDetails {
     @Column
     private String role;
 
-    public User(String email, String password) {
+    public User(String email, String visibleName, String password) {
         this.email = email;
+        this.visibleName = visibleName;
         this.password = password;
         this.role = "USER";
     }
 
-    public User(String email, String password, String role) {
+    public User(String email, String visibleName, String password, String role) {
         this.email = email;
+        this.visibleName = visibleName;
         this.password = password;
         this.role = role;
     }
@@ -57,9 +62,11 @@ public class User implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public String getUsername() {
         return email;
     }
+
 
     @Override
     @JsonIgnore

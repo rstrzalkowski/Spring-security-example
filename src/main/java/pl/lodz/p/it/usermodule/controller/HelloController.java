@@ -1,5 +1,6 @@
 package pl.lodz.p.it.usermodule.controller;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -8,16 +9,16 @@ public class HelloController {
 
     @GetMapping("/guest")
     public String hiGuest() {
-        return "Hi guest";
+        return "Hi guest, your email: " + SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
     @GetMapping("/user")
     public String hiUser() {
-        return "Hi user";
+        return "Hi user" + SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
     @GetMapping("/admin")
     public String hiAdmin() {
-        return "Hi admin";
+        return "Hi admin" + SecurityContextHolder.getContext().getAuthentication().getName();
     }
 }

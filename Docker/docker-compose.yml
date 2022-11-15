@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  postgresIO:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: iodb
+      POSTGRES_USER: iouser
+      POSTGRES_PASSWORD: iopassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg:/var/lib/postgresql/data
+volumes:
+  pg:

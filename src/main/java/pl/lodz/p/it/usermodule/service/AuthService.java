@@ -9,21 +9,29 @@ import pl.lodz.p.it.usermodule.dto.request.RegisterUserDTO;
 import pl.lodz.p.it.usermodule.dto.response.JwtDTO;
 import pl.lodz.p.it.usermodule.exception.EmailAlreadyRegisteredException;
 import pl.lodz.p.it.usermodule.model.User;
+import pl.lodz.p.it.usermodule.model.VerificationToken;
 import pl.lodz.p.it.usermodule.repository.UserRepository;
+import pl.lodz.p.it.usermodule.repository.VerificationTokenRepository;
 import pl.lodz.p.it.usermodule.security.JwtProvider;
 
 
 @Service
-public class UserService {
+public class AuthService {
 
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
+    private final VerificationTokenRepository verificationTokenRepository;
     private final PasswordEncoder encoder;
     private final JwtProvider jwtProvider;
 
-    public UserService(UserRepository userRepository, AuthenticationManager authenticationManager, PasswordEncoder encoder, JwtProvider jwtProvider) {
+    public AuthService(UserRepository userRepository,
+                       AuthenticationManager authenticationManager,
+                       VerificationTokenRepository verificationTokenRepository,
+                       PasswordEncoder encoder,
+                       JwtProvider jwtProvider) {
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
+        this.verificationTokenRepository = verificationTokenRepository;
         this.encoder = encoder;
         this.jwtProvider = jwtProvider;
 
@@ -31,15 +39,21 @@ public class UserService {
         userRepository.save(admin);
     }
 
-    public User register(RegisterUserDTO dto) {
+    public VerificationToken register(RegisterUserDTO dto) {
         String hashedPassword = encoder.encode(dto.getPassword());
-        User user = new User(dto.getEmail(), hashedPassword);
+        User user = new User(dto.getEmail(), dto.getUsername(), hashedPassword);
         try {
-            return userRepository.save(user);
+            userRepository.save(user);
+            return generateVerificationToken(user);
         } catch (Exception e) {
             throw new EmailAlreadyRegisteredException();
         }
 
+    }
+
+    private VerificationToken generateVerificationToken(User user) {
+        VerificationToken verificationToken = new VerificationToken(user);
+        return verificationTokenRepository.save(verificationToken);
     }
 
     public JwtDTO login(LoginDTO dto) {
@@ -49,5 +63,7 @@ public class UserService {
         String jwt = jwtProvider.generateJWT(dto.getEmail());
         return new JwtDTO(jwt, dto.getEmail());
     }
+
+
 
 }

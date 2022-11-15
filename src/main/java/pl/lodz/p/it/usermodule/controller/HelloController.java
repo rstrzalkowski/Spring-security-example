@@ -14,11 +14,11 @@ public class HelloController {
 
     @GetMapping("/user")
     public String hiUser() {
-        return "Hi user" + SecurityContextHolder.getContext().getAuthentication().getName();
+        return "Hi user, your email: " + SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
     @GetMapping("/admin")
     public String hiAdmin() {
-        return "Hi admin" + SecurityContextHolder.getContext().getAuthentication().getName();
+        return "Hi admin, your email: " + SecurityContextHolder.getContext().getAuthentication().getName();
     }
 }

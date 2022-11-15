@@ -14,7 +14,7 @@ import java.util.Collections;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "users")
+@Table(name = "app_user")
 @Access(AccessType.FIELD)
 public class User implements UserDetails {
 
@@ -31,14 +31,15 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String visibleName;
 
-    @Column
+
     @JsonIgnore
     private String password;
 
-    @Column
-    private boolean enabled = true;
 
-    @Column
+    private boolean locked = false;
+
+    private boolean active = false;
+
     private String role;
 
     public User(String email, String visibleName, String password) {
@@ -77,7 +78,7 @@ public class User implements UserDetails {
     @Override
     @JsonIgnore
     public boolean isAccountNonLocked() {
-        return true;
+        return !locked;
     }
 
     @Override
@@ -89,6 +90,6 @@ public class User implements UserDetails {
     @Override
     @JsonIgnore
     public boolean isEnabled() {
-        return enabled;
+        return active;
     }
 }

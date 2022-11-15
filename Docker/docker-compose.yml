@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   postgresIO:
+    container_name: IODB
     image: postgres
     restart: always
     environment:

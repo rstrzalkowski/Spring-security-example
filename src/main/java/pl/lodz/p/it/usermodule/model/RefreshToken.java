@@ -16,11 +16,6 @@ import java.time.Instant;
 @NoArgsConstructor
 public class RefreshToken {
 
-    public RefreshToken(String token) {
-        this.token = token;
-        this.createdDate = Instant.now();
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

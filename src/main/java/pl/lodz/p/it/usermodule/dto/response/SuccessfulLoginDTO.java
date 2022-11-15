@@ -5,7 +5,8 @@ import lombok.Data;
 
 @AllArgsConstructor
 @Data
-public class JwtDTO {
-    private String token;
+public class SuccessfulLoginDTO {
+    private String jwt;
+    private String refreshToken;
     private String email;
 }

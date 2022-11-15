@@ -2,6 +2,7 @@ package pl.lodz.p.it.usermodule.security;
 
 
 import io.jsonwebtoken.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -9,18 +10,23 @@ import java.util.Date;
 @Component
 public class JwtProvider {
 
+    @Value("${jwt.secret}")
+    String secret;
+    @Value("${jwt.expiration.time}")
+    private Long jwtExpirationInMillis;
+
     public String generateJWT(String email) {
         return Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 600000))
-                .signWith(SignatureAlgorithm.HS512, "SECRET") //TODO SECRET will be stored as environmental variable
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationInMillis))
+                .signWith(SignatureAlgorithm.HS512, secret) //TODO SECRET will be stored as environmental variable
                 .compact();
     }
 
     public Jws<Claims> parseJWT(String jwt) throws SignatureException {
         return Jwts.parser()
-                .setSigningKey("SECRET")
+                .setSigningKey(secret)
                 .parseClaimsJws(jwt);
     }
 

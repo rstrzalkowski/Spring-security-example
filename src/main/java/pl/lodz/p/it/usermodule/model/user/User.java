@@ -1,4 +1,4 @@
-package pl.lodz.p.it.usermodule.model;
+package pl.lodz.p.it.usermodule.model.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -18,8 +18,6 @@ import java.util.Collections;
 @Access(AccessType.FIELD)
 public class User implements UserDetails {
 
-    public static final String ADMIN = "ADMIN";
-    public static final String USER = "USER";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,16 +38,17 @@ public class User implements UserDetails {
 
     private boolean active = false;
 
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private UserType role;
 
     public User(String email, String visibleName, String password) {
         this.email = email;
         this.visibleName = visibleName;
         this.password = password;
-        this.role = "USER";
+        this.role = UserType.USER;
     }
 
-    public User(String email, String visibleName, String password, String role) {
+    public User(String email, String visibleName, String password, UserType role) {
         this.email = email;
         this.visibleName = visibleName;
         this.password = password;

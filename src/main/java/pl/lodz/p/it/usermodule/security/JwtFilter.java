@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import pl.lodz.p.it.usermodule.service.CustomUserDetailsService;
+import pl.lodz.p.it.usermodule.service.UserService;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -23,10 +23,10 @@ import java.util.List;
 public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtProvider jwtProvider;
-    private final CustomUserDetailsService userDetailsService;
+    private final UserService userDetailsService;
     private final List<AntPathRequestMatcher> excludedMatchers;
 
-    public JwtFilter(JwtProvider jwtProvider, CustomUserDetailsService userDetailsService) {
+    public JwtFilter(JwtProvider jwtProvider, UserService userDetailsService) {
         this.jwtProvider = jwtProvider;
         this.userDetailsService = userDetailsService;
         this.excludedMatchers = new ArrayList<>();

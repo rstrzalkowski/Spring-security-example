@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.lodz.p.it.usermodule.dto.request.LoginDTO;
 import pl.lodz.p.it.usermodule.dto.request.RegisterUserDTO;
 import pl.lodz.p.it.usermodule.dto.response.SuccessfulLoginDTO;
-import pl.lodz.p.it.usermodule.model.User;
+import pl.lodz.p.it.usermodule.model.user.User;
 import pl.lodz.p.it.usermodule.service.AuthService;
 
 import javax.validation.Valid;
